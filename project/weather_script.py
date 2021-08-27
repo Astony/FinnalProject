@@ -13,11 +13,13 @@ from datetime import date, datetime
 import time
 from celery import shared_task
 import matplotlib.pyplot as plt
+from get_central_coord import get_coordinates_of_central
 
 API_KEY = 'dYrajXLId5Rnp_WKZHaonsR-SMy2Z0xOlPRM4uELmfY'
 
 key = 'af194677845bda5d5065ebc3a0093a12'
 
+logger.add("debug_info.txt", format="{time} {level} {message}", level="DEBUG")
 
 def filter(df):
     """Function that filters data by name, longitude and latitude"""
@@ -53,13 +55,11 @@ def primary_data_proc():
 
 
 
-
-
 def define_address():
     """Function that adds addresses into dataframe"""
     df = primary_data_proc()
     geocoder = Here(apikey =API_KEY, user_agent = "weather.script.py", timeout=3)
-    geocode = RateLimiter(geocoder.reverse, min_delay_seconds=0.5)
+    geocode = RateLimiter(geocoder.reverse, min_delay_seconds=0.1)
 
     with ThreadPoolExecutor(max_workers=10) as pool:
         responses = pool.map(geocode, zip(df['Latitude'].tolist(), df["Longitude"].tolist()))
@@ -67,39 +67,9 @@ def define_address():
     return df
 
 
-
-def get_coordinates_of_central(dataframe):
-    """Function that calculates teh center area with hotels"""
-    x = 0.0
-    y = 0.0
-    z = 0.0
-
-    for i, coord in dataframe.iterrows():
-        latitude = math.radians(coord.Latitude)
-        longitude = math.radians(coord.Longitude)
-
-        x += math.cos(latitude) * math.cos(longitude)
-        y += math.cos(latitude) * math.sin(longitude)
-        z += math.sin(latitude)
-
-    total = len(dataframe)
-
-    x = x / total
-    y = y / total
-    z = z / total
-
-    central_longitude = math.atan2(y, x)
-    central_square_root = math.sqrt(x * x + y * y)
-    central_latitude = math.atan2(z, central_square_root)
-    return math.degrees(central_latitude), math.degrees(central_longitude)
-
-
-
-
-def calculate_central_area():
+def calculate_central_area(result_df):
     """Function that returns dictionary with city and it's center"""
-    df = pd.read_csv("results.csv")
-    return {city:get_coordinates_of_central(dataframe) for city, dataframe in df.groupby(["City"])}
+    return {city:get_coordinates_of_central(dataframe) for city, dataframe in result_df.groupby(["City"])}
 
 
 def fetch(url):
@@ -109,8 +79,8 @@ def fetch(url):
 
 
 @logger.catch
-def forecast_weather():
-    cities_and_coordinate = calculate_central_area()
+def forecast_weather(result_dataframe):
+    cities_and_coordinate = calculate_central_area(result_dataframe)
     forecast_weather_list =[]
     cities = list(np.repeat([city for city in cities_and_coordinate],8))
     coordinates = [coordinate for coordinate in cities_and_coordinate.values()]
@@ -125,18 +95,18 @@ def forecast_weather():
                 "min_temp":day["temp"]["min"],
                 "max_temp": day["temp"]["max"],
                 "day":datetime.utcfromtimestamp(day["dt"]).strftime('%Y-%m-%d')})
-    with open("forecast_weather_results2.json", "w") as file:
-        json.dump(forecast_weather_list, file)
+    return pd.DataFrame(forecast_weather_list)
+
 
 
 def prev_5_days():
     current_date = int(datetime.timestamp(datetime.today()))
     return [current_date - index * 86400 for index in range(1,6)]
-@logger.catch
-def prev_weather():
+
+def prev_weather(result_dataframe):
     urls = []
     day_list = prev_5_days()
-    cities_and_coordinates = calculate_central_area()
+    cities_and_coordinates = calculate_central_area(result_dataframe)
     cities = list(np.repeat([city for city in cities_and_coordinates],5))
     coordinates = [coordinate for coordinate in cities_and_coordinates.values()]
     weather_list = []
@@ -152,23 +122,39 @@ def prev_weather():
                             "min_temp":min(daily_temperature),
                             "max_temp":max(daily_temperature),
                             "day":datetime.utcfromtimestamp(weather_per_day['hourly'][0]['dt']).strftime('%Y-%m-%d')})
+    return pd.DataFrame(weather_list)
 
 
-
-def create_plots(df):
-    for city, dataframe in df.groupby(df["City"]):
-        df = dataframe.pivot_table(["max_temp", "min_temp"],"day")
-        print(city, df)
-        df.plot(kind = 'bar')
-        plt.ylabel("Temperature in Celsius")
-        plt.title(f"{city}")
-        plt.show()
-df = pd.read_csv("results.csv")
+#
+# def create_plots(df):
+#     for city, dataframe in df.groupby(df["City"]):
+#         df = dataframe.pivot_table(["max_temp", "min_temp"],"day")
+#         print(city, df)
+#         df.plot(kind = 'bar')
+#         plt.ylabel("Temperature in Celsius")
+#         plt.title(f"{city}")
+#         plt.show()
+# df = pd.read_csv("results.csv")
 
 
 def create_csv(df):
     for city, dataframe in df.groupby(df["City"]):
         dataframe.to_csv(f"{city}.csv")
+
+
+@logger.catch
+def weather_script():
+    top_hotels_df = define_address()
+    weather_df = pd.concat([prev_weather(top_hotels_df), prev_weather(top_hotels_df)])
+
+
+
+
+
+
+
+
+
 
 
 
