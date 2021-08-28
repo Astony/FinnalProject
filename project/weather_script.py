@@ -12,8 +12,8 @@ from datetime import datetime
 import time
 from celery import shared_task
 import matplotlib.pyplot as plt
-# from project.get_central_coord import get_coordinates_of_central
-from get_central_coord import get_coordinates_of_central
+from project.get_central_coord import get_coordinates_of_central
+# from get_central_coord import get_coordinates_of_central
 import json
 
 API_KEY = 'dYrajXLId5Rnp_WKZHaonsR-SMy2Z0xOlPRM4uELmfY'
@@ -58,13 +58,19 @@ def primary_data_proc():
     return result_frame[result_frame.City.isin(top_hotels_country_and_city.values())]
 
 
+def geocoder_setup(limit=True):
+    geocoder = Here(apikey=API_KEY, user_agent="weather.script.py", timeout=3)
+    if limit:
+        geocoder =  RateLimiter(geocoder.reverse, min_delay_seconds=0.1)
+    return geocoder
+
+
 def define_address(top_cities_df):
     """Function that adds addresses into dataframe"""
-    geocoder = Here(apikey =API_KEY, user_agent = "weather.script.py", timeout=3)
-    geocode = RateLimiter(geocoder.reverse, min_delay_seconds=0.1)
+    geocoder = geocoder_setup()
     with ThreadPoolExecutor(max_workers=10) as pool:
-        responses = pool.map(geocode, zip(top_cities_df['Latitude'].tolist(), top_cities_df["Longitude"].tolist()))
-    top_cities_df["Adress"] = np.array(responses)
+        responses = pool.map(geocoder, zip(top_cities_df['Latitude'].tolist(), top_cities_df["Longitude"].tolist()))
+    top_cities_df["Address"] = np.array(responses)
     logger.info("Add addresses for each hotel")
     return top_cities_df
 
@@ -73,8 +79,6 @@ def calculate_central_area(result_df):
     """Function that returns dictionary with city and it's center"""
     logger.info("Calculate central area")
     return {city:get_coordinates_of_central(dataframe) for city, dataframe in result_df.groupby(["City"])}
-
-
 
 
 def prev_5_days():
