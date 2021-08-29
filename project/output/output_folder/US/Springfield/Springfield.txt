@@ -1,4 +1,0 @@
-The max temp in Springfield per 2021-09-02 is 38.95
-The max deviation of max temp is in Springfield for period is 2.138
-The min temp in Springfield per 2021-09-03 is 22.69
-The max deviation of temp is in Springfield for period is 17.87
