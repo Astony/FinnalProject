@@ -1,6 +1,8 @@
 import pytest
 import pandas as pd
 import os
+from pathlib import Path
+from zipfile import ZipFile
 
 @pytest.fixture
 def create_csv():
@@ -11,8 +13,19 @@ def create_csv():
                 "Longitude":[1, 1, 1, 1],
                 "Name":["a","a","a","a"]}
     )
-    dataframe.to_csv("tests/1.csv")
+    Path("output_folder").mkdir()
+    dataframe.to_csv("output_folder/1.csv")
     yield
-    os.remove("tests/1.csv")
+    os.remove("output_folder/1.csv")
+    Path("output_folder").rmdir()
+
+
+@pytest.fixture
+def delete_dir_and_files():
+
+    yield
+    os.remove("tests/output_folder/test.csv")
+    Path("tests/output_folder").rmdir()
+
 
 

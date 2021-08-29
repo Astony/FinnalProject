@@ -1,0 +1,4 @@
+The max temp in Milan per 2021-09-04 is 31.51
+The max deviation of max temp is in Milan for period is 2.214
+The min temp in Milan per 2021-08-27 is 22.87
+The max deviation of temp is in Milan for period is 12.47
