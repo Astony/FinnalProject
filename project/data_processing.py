@@ -63,7 +63,7 @@ def get_coordinates_of_central(dataframe):
     return math.degrees(central_latitude), math.degrees(central_longitude)
 
 
-def calculate_central_area(dataframe: pd.DataFrame) -> Dict:
+def calc_centr(dataframe: pd.DataFrame) -> Dict:
     """Function that returns dictionary with (city, country) and it's center"""
     logger.info("Calculate central area")
     return {

@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 from loguru import logger
 
-from data_processing import calculate_central_area, define_address, geocoder_setup
+from data_processing import calc_centr, define_address, geocoder_setup
 from post_processing_functions import save_main_info
 from preparation_of_data_functions import primary_data_proc, unzip
 from weather_api_functions import forecast_weather, prev_weather
@@ -20,9 +20,7 @@ def weather_script(init_data_path: str, output_path: str, workers: int) -> None:
         hotels_dataframe_without_addresses, geocoder, workers
     )
 
-    cities_countries_central_coord = calculate_central_area(
-        top_hotels_df_with_addresses
-    )
+    cities_countries_central_coord = calc_centr(top_hotels_df_with_addresses)
     cities = [city_country[0] for city_country in cities_countries_central_coord]
     coordinates = [coordinate for coordinate in cities_countries_central_coord.values()]
     countries = [city_country[1] for city_country in cities_countries_central_coord]
