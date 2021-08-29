@@ -1,7 +1,9 @@
-from zipfile import ZipFile
-from loguru import logger
 from pathlib import Path
+from zipfile import ZipFile
+
 import pandas as pd
+from loguru import logger
+
 
 def unzip(init_data_path: str, output_path: str) -> None:
     """Function that create output folder and extracts all csv files there"""
@@ -9,6 +11,7 @@ def unzip(init_data_path: str, output_path: str) -> None:
     with ZipFile(f"{init_data_path}/hotels.zip", "r") as zip_obj:
         zip_obj.extractall(Path(f"{output_path}/output_folder"))
     logger.info("Extract all csv into current dir")
+
 
 def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame:
     """Function that filters data by name, longitude and latitude"""

@@ -1,10 +1,11 @@
-from geopy.geocoders import Here
-from geopy.extra.rate_limiter import RateLimiter
-import pandas as pd
-from loguru import logger
-from concurrent.futures import ThreadPoolExecutor
 import math
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict
+
+import pandas as pd
+from geopy.extra.rate_limiter import RateLimiter
+from geopy.geocoders import Here
+from loguru import logger
 
 GEOLOCATION_API_KEY = "dYrajXLId5Rnp_WKZHaonsR-SMy2Z0xOlPRM4uELmfY"
 
@@ -17,6 +18,7 @@ def geocoder_setup(limit=True) -> Here:
     if limit:
         geocoder = RateLimiter(geocoder.reverse, min_delay_seconds=0.1)
     return geocoder
+
 
 def define_address(
     top_cities_df: pd.DataFrame, geocoder: Here, workers: int
