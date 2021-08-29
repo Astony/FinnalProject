@@ -1,8 +1,9 @@
-import matplotlib.pyplot as plt
-from loguru import logger
-import pandas as pd
-from pathlib import Path
 import math
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from loguru import logger
 
 
 def create_plots(
