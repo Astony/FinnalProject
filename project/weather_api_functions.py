@@ -3,7 +3,7 @@ from typing import List
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import math
-from pandas import pd
+import pandas as pd
 from loguru import logger
 
 WEATHER_API_KEY = "744f5ed08d92e8cf016db6d4d47560c3"
