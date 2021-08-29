@@ -64,10 +64,10 @@ def geocoder_setup(limit=True):
     return geocoder
 
 
-def define_address(top_cities_df, geocoder):
+def define_address(top_cities_df, geocoder, workers):
     """Function that adds addresses into dataframe"""
     logger.info("Start to add addresses")
-    with ThreadPoolExecutor(max_workers=10) as pool:
+    with ThreadPoolExecutor(max_workers=workers) as pool:
         responses = pool.map(geocoder, zip(top_cities_df['Latitude'].tolist(), top_cities_df["Longitude"].tolist()))
     top_cities_df["Address"] = list(responses)
     logger.info("Added addresses for each hotel")
@@ -205,11 +205,11 @@ def save_main_info(output_path, weather_df, top_hotels_df_with_addresses):
 
 
 @logger.catch
-def weather_script(init_data_path, output_path):
+def weather_script(init_data_path, output_path, workers):
     unzip(init_data_path, output_path)
     hotels_dataframe_without_addresses = primary_data_proc(output_path)
     geocoder = geocoder_setup()
-    top_hotels_df_with_addresses = define_address(hotels_dataframe_without_addresses, geocoder)
+    top_hotels_df_with_addresses = define_address(hotels_dataframe_without_addresses, geocoder, workers)
 
     cities_countries_central_coord = calculate_central_area(top_hotels_df_with_addresses)
     cities = [city_country[0] for city_country in cities_countries_central_coord]
@@ -222,7 +222,7 @@ def weather_script(init_data_path, output_path):
     logger.info("Start to save results")
     save_main_info(output_path, weather_df, top_hotels_df_with_addresses)
 
-weather_script("input","kek")
+weather_script("input", "output", 10)
 
 
 
