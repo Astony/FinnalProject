@@ -1,7 +1,9 @@
-from project.weather_script import forecast_weather, get_urls, prev_weather,filter_df_from_invalid_rows,geocoder_setup,define_address
+from project.weather_script import forecast_weather, get_urls, prev_weather,filter_df_from_invalid_rows,geocoder_setup,define_address,primary_data_proc
 from project import get_central_coord
 from unittest.mock import patch
+import pytest
 import pandas as pd
+from unittest.mock import MagicMock
 cities = ["FakeCity"]
 coordinates = [[666,777]]
 
@@ -31,15 +33,18 @@ def test_filter_func():
     assert len(result_df) == 1
     assert result_df.Name.item() == "Spb"
 
-def mock_geocoder_setup():
-    return ["Test address"]
+def mock_geocoder_setup(*args):
+    return "Test address"
 
-def test_define_addresses_function():
-    geocoder_setup = mock_geocoder_setup
-    test_df = pd.DataFrame({"Latitude":[0], "Longitude":[0]})
-    result_df = define_address(test_df)
-    assert result_df.Address
+def test_define_addresses_function(mocker):
+    test_df = pd.DataFrame({"Latitude":[100], "Longitude":[0]})
+    geocoder = mock_geocoder_setup
+    result_df = define_address(test_df, geocoder)
+    assert result_df.Address.item() == "Test address"
 
+def test_primary_data_proc(create_csv):
+    test_frame = primary_data_proc()
+    assert test_frame["City"].to_list() == ['Tumen', "Tumen", "Amsterdam"]
 
 
 
