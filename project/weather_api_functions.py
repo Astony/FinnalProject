@@ -6,8 +6,24 @@ from typing import List
 import pandas as pd
 import requests
 from loguru import logger
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 WEATHER_API_KEY = "744f5ed08d92e8cf016db6d4d47560c3"
+
+
+def setup_get_request(url):
+    retry = Retry(
+        total=3,
+        status_forcelist=[429, 500, 502, 503, 504],
+        method_whitelist=["HEAD", "GET", "OPTIONS"]
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session = requests.Session()
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session.get(url)
+
 
 
 def get_urls(mode: str, coordinates: List) -> List:
@@ -29,13 +45,11 @@ def get_urls(mode: str, coordinates: List) -> List:
         return urls
 
 
-def fetch(url: str) -> requests:
-    return requests.get(url)
+
 
 
 def forecast_weather(
-    cities: List, countries: List, coordinates: List, workers: int
-) -> pd.DataFrame:
+    cities: List, countries: List, coordinates: List, workers: int, fetch=setup_get_request) -> pd.DataFrame:
     """Function that returns dataframe with information about temperature in city's central area per current day and in next 7 days"""
     forecast_weather_list = []
     urls = get_urls("forecast", coordinates)
@@ -60,7 +74,7 @@ def forecast_weather(
 
 
 def prev_weather(
-    cities: List, countries: List, coordinates: List, workers: int
+    cities: List, countries: List, coordinates: List, workers: int,fetch=setup_get_request
 ) -> pd.DataFrame:
     """Function that returns dataframe with information about temperature in city's central area in previous 5 days"""
 

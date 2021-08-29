@@ -16,7 +16,8 @@ def geocoder_setup(limit=True) -> Here:
         apikey=GEOLOCATION_API_KEY, user_agent="weather.script.py", timeout=3
     )
     if limit:
-        geocoder = RateLimiter(geocoder.reverse, min_delay_seconds=0.1)
+        geocoder = RateLimiter(geocoder.reverse, min_delay_seconds=0.1, max_retries=2, error_wait_seconds=5.0,
+                               swallow_exceptions=True, return_value_on_exception=None)
     return geocoder
 
 
