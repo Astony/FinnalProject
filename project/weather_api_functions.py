@@ -1,12 +1,14 @@
-import requests
-from typing import List
+import math
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-import math
+from typing import List
+
 import pandas as pd
+import requests
 from loguru import logger
 
 WEATHER_API_KEY = "744f5ed08d92e8cf016db6d4d47560c3"
+
 
 def get_urls(mode: str, coordinates: List) -> List:
     """Function that return list of urls for request to API depending on mode"""
@@ -25,6 +27,7 @@ def get_urls(mode: str, coordinates: List) -> List:
                     f"https://api.openweathermap.org/data/2.5/onecall/timemachine?lat={coordinate[0]}&lon={coordinate[1]}&dt={timestamp}&appid={WEATHER_API_KEY}"
                 )
         return urls
+
 
 def fetch(url: str) -> requests:
     return requests.get(url)

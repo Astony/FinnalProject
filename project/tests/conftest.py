@@ -1,17 +1,22 @@
-import pytest
-import pandas as pd
 import os
 from pathlib import Path
 from zipfile import ZipFile
 
+import pandas as pd
+import pytest
+
+
 @pytest.fixture
 def create_csv():
-    dataframe = pd.DataFrame({'City':['Tumen', "Togliatty","Tumen", "Amsterdam"],
-                 'Country':['RU', 'RU', "RU", "NL"],
-                 'Hotel':["a","a","a","a"],
-                 'Latitude':[1,1,1,1],
-                "Longitude":[1, 1, 1, 1],
-                "Name":["a","a","a","a"]}
+    dataframe = pd.DataFrame(
+        {
+            "City": ["Tumen", "Togliatty", "Tumen", "Amsterdam"],
+            "Country": ["RU", "RU", "RU", "NL"],
+            "Hotel": ["a", "a", "a", "a"],
+            "Latitude": [1, 1, 1, 1],
+            "Longitude": [1, 1, 1, 1],
+            "Name": ["a", "a", "a", "a"],
+        }
     )
     Path("output_folder").mkdir()
     dataframe.to_csv("output_folder/1.csv")
@@ -26,6 +31,3 @@ def delete_dir_and_files():
     yield
     os.remove("tests/output_folder/test.csv")
     Path("tests/output_folder").rmdir()
-
-
-
