@@ -11,8 +11,8 @@ def create_csv():
                 "Longitude":[1, 1, 1, 1],
                 "Name":["a","a","a","a"]}
     )
-    dataframe.to_csv("1.csv")
+    dataframe.to_csv("tests/1.csv")
     yield
-    os.remove("1.csv")
+    os.remove("tests/1.csv")
 
 
