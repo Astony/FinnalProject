@@ -1,4 +1,4 @@
-The max temp in Amsterdam per 2021-09-05 is 24.96
-The max deviation of max temp is in Amsterdam for period is 2.186
-The min temp in Amsterdam per 2021-08-29 is 16.9
-The max deviation of temp is in Amsterdam for period is 11.7
+The max temp in Amsterdam per 2021-09-05 is 25.6
+The max deviation of max temp is in Amsterdam for period is 2.162
+The min temp in Amsterdam per 2021-08-29 is 16.95
+The max deviation of temp is in Amsterdam for period is 11.66

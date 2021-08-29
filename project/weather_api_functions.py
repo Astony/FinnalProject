@@ -2,6 +2,7 @@ import math
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from typing import List
+from ratelimit import limits, RateLimitException, sleep_and_retry
 
 import pandas as pd
 import requests
@@ -9,9 +10,11 @@ from loguru import logger
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
+
 WEATHER_API_KEY = "744f5ed08d92e8cf016db6d4d47560c3"
 
-
+@sleep_and_retry
+@limits(calls=60, period=60)
 def setup_get_request(url):
     retry = Retry(
         total=3,
@@ -23,6 +26,8 @@ def setup_get_request(url):
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     return session.get(url)
+
+
 
 
 

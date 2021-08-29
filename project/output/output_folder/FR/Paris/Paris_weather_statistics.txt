@@ -1,4 +1,4 @@
-The max temp in Paris per 2021-09-04 is 30.39
-The max deviation of max temp is in Paris for period is 2.057
-The min temp in Paris per 2021-08-29 is 19.56
-The max deviation of temp is in Paris for period is 13.3
+The max temp in Paris per 2021-09-03 is 28.5
+The max deviation of max temp is in Paris for period is 1.594
+The min temp in Paris per 2021-08-29 is 19.81
+The max deviation of temp is in Paris for period is 13.19

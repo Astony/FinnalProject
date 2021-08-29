@@ -31,3 +31,10 @@ def delete_dir_and_files():
     yield
     os.remove("tests/output_folder/test.csv")
     Path("tests/output_folder").rmdir()
+
+@pytest.fixture
+def create_dir():
+    Path("tests/output_folder").mkdir()
+    yield
+    os.remove("tests/output_folder/Testcity.png")
+    Path("tests/output_folder").rmdir()

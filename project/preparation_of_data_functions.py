@@ -22,9 +22,9 @@ def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame
     ]
 
     filtered_df_by_lat_lon = df_with_correct_rows[
-        (abs(df_with_correct_rows.Latitude.astype(float)) <= 90)
-        & (df_with_correct_rows.Longitude.astype(float) >= -180)
-        & (df_with_correct_rows.Longitude.astype(float) <= 180)
+        (abs(df_with_correct_rows.Latitude.astype(float)) < 90)
+        & (df_with_correct_rows.Longitude.astype(float) > -180)
+        & (df_with_correct_rows.Longitude.astype(float) < 180)
     ]
     logger.info("Filtered all csv from invalid data")
     return filtered_df_by_lat_lon.dropna()
