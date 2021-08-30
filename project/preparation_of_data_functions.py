@@ -6,7 +6,7 @@ from loguru import logger
 
 
 def unzip(init_data_path: str, output_path: str) -> None:
-    """Function that create output folder and extracts all csv files there"""
+    """Create output folder and extracts all csv files there"""
     Path(f"{output_path}/output_folder").mkdir()
     with ZipFile(f"{init_data_path}/hotels.zip", "r") as zip_obj:
         zip_obj.extractall(Path(f"{output_path}/output_folder"))
@@ -14,7 +14,7 @@ def unzip(init_data_path: str, output_path: str) -> None:
 
 
 def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame:
-    """Function that filters data by name, longitude and latitude"""
+    """Filter data by name, longitude and latitude"""
     df_with_correct_rows = invalid_dataframe[
         pd.to_numeric(invalid_dataframe["Latitude"], errors="coerce").notnull()
         & pd.to_numeric(invalid_dataframe["Longitude"], errors="coerce").notnull()
@@ -29,8 +29,9 @@ def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame
     logger.info("Filtered all csv from invalid data")
     return filtered_df_by_lat_lon.dropna()
 
+
 def primary_data_proc(output_path: str) -> pd.DataFrame:
-    """Function that return dataframe with cities which have the most number of hotels"""
+    """Return dataframe with cities which have the most number of hotels"""
     all_df_list = (
         filter_df_from_invalid_rows(pd.read_csv(path, encoding="utf-8"))
         for path in Path(f"{output_path}/output_folder").glob("*.csv")

@@ -42,3 +42,15 @@ def create_dir():
     Path("tests/output_folder/Testcountry/Testcity").rmdir()
     Path("tests/output_folder/Testcountry").rmdir()
     Path("tests/output_folder").rmdir()
+
+@pytest.fixture
+def create_dir_for_csv():
+    Path("tests/output_folder").mkdir()
+    Path("tests/output_folder/Testcountry").mkdir()
+    Path("tests/output_folder/Testcountry/Testcity").mkdir()
+    yield
+    os.remove("tests/output_folder/Testcountry/Testcity/Testcity_1.csv")
+    os.remove("tests/output_folder/Testcountry/Testcity/Testcity_2.csv")
+    Path("tests/output_folder/Testcountry/Testcity").rmdir()
+    Path("tests/output_folder/Testcountry").rmdir()
+    Path("tests/output_folder").rmdir()

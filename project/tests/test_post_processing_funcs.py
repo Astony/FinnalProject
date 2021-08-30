@@ -1,5 +1,5 @@
 from post_processing_functions import create_plots, find_max_temp, max_deviation_of_max_temp,\
-    find_min_temp, max_deviation_of_temp
+    find_min_temp, max_deviation_of_temp, save_csv
 import pandas as pd
 from pathlib import Path
 
@@ -27,5 +27,10 @@ def test_max_deviation_of_temp():
     assert max_deviation_of_temp("testcity", test_df) == "The max deviation of temp is in testcity for period is 200"
 
 
-
-
+def test_create_csv_function(create_dir_for_csv):
+    test_df = pd.DataFrame([{"Count":count} for count in range(150)])
+    save_csv("Testcity", "Testcountry", "tests", test_df)
+    p1 = Path("tests/output_folder/Testcountry/Testcity/Testcity_1.csv")
+    p2 = Path("tests/output_folder/Testcountry/Testcity/Testcity_2.csv")
+    assert p1.exists()
+    assert p2.exists()
