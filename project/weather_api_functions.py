@@ -1,7 +1,7 @@
 import math
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from typing import List
+from typing import List, Generator
 from ratelimit import limits, RateLimitException, sleep_and_retry
 
 import pandas as pd
@@ -31,13 +31,13 @@ def setup_get_request(url):
 
 
 
-def get_urls(mode: str, coordinates: List) -> List:
+def get_urls(mode: str, coordinates: List) -> Generator[str,None,None]:
     """Function that return list of urls for request to API depending on mode"""
     if mode == "forecast":
-        return [
+        return (
             f"https://api.openweathermap.org/data/2.5/onecall?lat={coordinate[0]}&lon={coordinate[1]}&exclude={'hourly'}&appid={WEATHER_API_KEY}"
             for coordinate in coordinates
-        ]
+        )
     elif mode == "historical":
         urls = []
         current_date = int(datetime.timestamp(datetime.today()))

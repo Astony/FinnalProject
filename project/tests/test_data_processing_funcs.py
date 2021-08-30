@@ -12,6 +12,7 @@ def test_define_addresses_function(mocker):
     geocoder = mock_geocoder_setup
     result_df = define_address(test_df, geocoder, 1)
     assert result_df.Address.item() == "Test address"
+    assert result_df.Latitude.item() == 100
 
 def test_get_of_central_coordinates():
     test_df = pd.DataFrame({"Latitude": [60, 80], "Longitude": [100,100]})

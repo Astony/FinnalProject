@@ -21,7 +21,7 @@ def create_csv():
     Path("output_folder").mkdir()
     dataframe.to_csv("output_folder/1.csv")
     yield
-    os.remove("output_folder/1.csv")
+    Path("output_folder/1.csv").unlink()
     Path("output_folder").rmdir()
 
 
@@ -29,12 +29,16 @@ def create_csv():
 def delete_dir_and_files():
 
     yield
-    os.remove("tests/output_folder/test.csv")
+    Path("tests/output_folder/test.csv").unlink()
     Path("tests/output_folder").rmdir()
 
 @pytest.fixture
 def create_dir():
     Path("tests/output_folder").mkdir()
+    Path("tests/output_folder/Testcountry").mkdir()
+    Path("tests/output_folder/Testcountry/Testcity").mkdir()
     yield
-    os.remove("tests/output_folder/Testcity.png")
+    os.remove("tests/output_folder/Testcountry/Testcity/Testcity.png")
+    Path("tests/output_folder/Testcountry/Testcity").rmdir()
+    Path("tests/output_folder/Testcountry").rmdir()
     Path("tests/output_folder").rmdir()

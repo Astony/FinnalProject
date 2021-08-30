@@ -24,21 +24,19 @@ def find_max_temp(city: str, dataframe: pd.DataFrame) -> str:
 
 def max_deviation_of_max_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds max deviation of max temp in city"""
-    std_score = (
-        dataframe.max_temp - dataframe.max_temp.mean()
-    ) / dataframe.max_temp.std()
-    return f"The max deviation of max temp is in {city} for period is {round(std_score.abs().max(),3)}"
+    std_score = dataframe.max_temp.max() - dataframe.max_temp.min()
+    return f"The max deviation of max temp is in {city} for period is {round(std_score,3)}"
 
 
 def find_min_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds min temp in city"""
-    return f"The min temp in {city} per {dataframe[dataframe.max_temp == dataframe.max_temp.min()].day.max()} is {dataframe.max_temp.min()}"
+    return f"The min temp in {city} per {dataframe[dataframe.min_temp == dataframe.min_temp.min()].day.min()} is {dataframe.min_temp.min()}"
 
 
 def max_deviation_of_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds difference between max and min temperature in city"""
-    std_score = dataframe.max_temp - dataframe.min_temp
-    return f"The max deviation of temp is in {city} for period is {round(std_score.abs().max(),3)}"
+    std_score = dataframe.max_temp.max() - dataframe.min_temp.min()
+    return f"The max deviation of temp is in {city} for period is {round(std_score,3)}"
 
 
 def write_in_file(

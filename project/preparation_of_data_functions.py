@@ -18,7 +18,7 @@ def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame
     df_with_correct_rows = invalid_dataframe[
         pd.to_numeric(invalid_dataframe["Latitude"], errors="coerce").notnull()
         & pd.to_numeric(invalid_dataframe["Longitude"], errors="coerce").notnull()
-        & ~pd.to_numeric(invalid_dataframe["Name"], errors="coerce").notnull()
+        & pd.to_numeric(invalid_dataframe["Name"], errors="coerce").isnull()
     ]
 
     filtered_df_by_lat_lon = df_with_correct_rows[
@@ -28,7 +28,6 @@ def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame
     ]
     logger.info("Filtered all csv from invalid data")
     return filtered_df_by_lat_lon.dropna()
-
 
 def primary_data_proc(output_path: str) -> pd.DataFrame:
     """Function that return dataframe with cities which have the most number of hotels"""
@@ -43,8 +42,7 @@ def primary_data_proc(output_path: str) -> pd.DataFrame:
 
     top_hotels_country_and_city = {}
     for pair in sorted_df_by_num_of_hotels.to_dict().items():
-        country = pair[0][1]
-        city = pair[0][0]
+        city, country = pair[0]
         if (
             country not in top_hotels_country_and_city
             and city not in top_hotels_country_and_city.values()

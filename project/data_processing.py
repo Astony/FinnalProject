@@ -24,7 +24,8 @@ def geocoder_setup(limit=True) -> Here:
 def define_address(
     top_cities_df: pd.DataFrame, geocoder: Here, workers: int
 ) -> pd.DataFrame:
-    """Function that adds addresses into top_hotels_in_city dataframe"""
+    """Define and add addresses into top_hotels_in_city dataframe"""
+
     logger.info("Start to add addresses")
     with ThreadPoolExecutor(max_workers=workers) as pool:
         responses = pool.map(
@@ -40,9 +41,7 @@ def define_address(
 
 def get_coordinates_of_central(dataframe):
     """Function that calculates teh center area with hotels"""
-    x = 0.0
-    y = 0.0
-    z = 0.0
+    x, y, z = 0.0, 0.0, 0.0
 
     for i, coord in dataframe.iterrows():
         latitude = math.radians(float(coord.Latitude))
