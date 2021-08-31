@@ -10,8 +10,8 @@ from preparation_of_data_functions import (
 
 def test_unzip_func(create_zip_file_and_del_it):
     """Test that unzip function extract all files into output dir"""
-    unzip("tests", "tests")
-    p = Path("tests/output_folder/test.csv")
+    unzip("project/tests", "project/tests")
+    p = Path("project/tests/output_folder/test.csv")
     assert p.exists()
 
 

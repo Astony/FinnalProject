@@ -8,13 +8,13 @@ import pytest
 @pytest.fixture
 def create_zip_file_and_del_it():
     """Create zip file for test unzip func and then remove all test files and directories"""
-    with ZipFile("tests/hotels.zip", "w") as zip:
+    with ZipFile("project/tests/hotels.zip", "w") as zip:
         with zip.open("test.csv", "w") as f:
             pass
     yield
-    Path("tests/hotels.zip").unlink()
-    Path("tests/output_folder/test.csv").unlink()
-    Path("tests/output_folder").rmdir()
+    Path("project/tests/hotels.zip").unlink()
+    Path("project/tests/output_folder/test.csv").unlink()
+    Path("project/tests/output_folder").rmdir()
 
 
 @pytest.fixture
@@ -47,16 +47,16 @@ def create_csv_for_primary_data_proc_func():
 
 def create_out_testcountry_testcity_folder():
     """Create directories for test post processing functions"""
-    Path("tests/output_folder").mkdir()
-    Path("tests/output_folder/Testcountry").mkdir()
-    Path("tests/output_folder/Testcountry/Testcity").mkdir()
+    Path("project/tests/output_folder").mkdir()
+    Path("project/tests/output_folder/Testcountry").mkdir()
+    Path("project/tests/output_folder/Testcountry/Testcity").mkdir()
 
 
 def delete_out_testcountry_testcity_folder():
     """Delete directories after test post processing functions"""
-    Path("tests/output_folder/Testcountry/Testcity").rmdir()
-    Path("tests/output_folder/Testcountry").rmdir()
-    Path("tests/output_folder").rmdir()
+    Path("project/tests/output_folder/Testcountry/Testcity").rmdir()
+    Path("project/tests/output_folder/Testcountry").rmdir()
+    Path("project/tests/output_folder").rmdir()
 
 
 @pytest.fixture
@@ -64,7 +64,7 @@ def create_dir_for_test_create_plot_func_and_delete_it():
     """Start test for create_plot func and then remove all test files and directories"""
     create_out_testcountry_testcity_folder()
     yield
-    Path("tests/output_folder/Testcountry/Testcity/Testcity.png").unlink()
+    Path("project/tests/output_folder/Testcountry/Testcity/Testcity.png").unlink()
     delete_out_testcountry_testcity_folder()
 
 
@@ -73,6 +73,6 @@ def create_dir_for_test_create_csv_func_and_del_it():
     """Start test for create_csv func and then remove all test files and directories"""
     create_out_testcountry_testcity_folder()
     yield
-    Path("tests/output_folder/Testcountry/Testcity/Testcity_1.csv").unlink()
-    Path("tests/output_folder/Testcountry/Testcity/Testcity_2.csv").unlink()
+    Path("project/tests/output_folder/Testcountry/Testcity/Testcity_1.csv").unlink()
+    Path("project/tests/output_folder/Testcountry/Testcity/Testcity_2.csv").unlink()
     delete_out_testcountry_testcity_folder()

@@ -16,8 +16,8 @@ def test_create_plots_func(create_dir_for_test_create_plot_func_and_delete_it):
     test_df = pd.DataFrame(
         {"max_temp": [100], "min_temp": [200], "day": ["the most lonely"]}
     )
-    create_plots("Testcity", "Testcountry", "tests", test_df)
-    p = Path("tests/output_folder/Testcountry/Testcity/Testcity.png")
+    create_plots("Testcity", "Testcountry", "project/tests", test_df)
+    p = Path("project/tests/output_folder/Testcountry/Testcity/Testcity.png")
     assert p.exists()
 
 
@@ -55,8 +55,8 @@ def test_create_csv_function(create_dir_for_test_create_csv_func_and_del_it):
     """Test save_csv will divide big csv file with number of rows > 100 on several
     csv and each of them contains of less than 100 rows"""
     test_df = pd.DataFrame([{"Count": count} for count in range(150)])
-    save_csv("Testcity", "Testcountry", "tests", test_df)
-    p1 = Path("tests/output_folder/Testcountry/Testcity/Testcity_1.csv")
-    p2 = Path("tests/output_folder/Testcountry/Testcity/Testcity_2.csv")
+    save_csv("Testcity", "Testcountry", "project/tests", test_df)
+    p1 = Path("project/tests/output_folder/Testcountry/Testcity/Testcity_1.csv")
+    p2 = Path("project/tests/output_folder/Testcountry/Testcity/Testcity_2.csv")
     assert p1.exists()
     assert p2.exists()

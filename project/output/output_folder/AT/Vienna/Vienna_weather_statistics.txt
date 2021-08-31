@@ -1,4 +1,0 @@
-The max temp in Vienna per 2021-09-05 is 27.49
-The max deviation of max temp is in Vienna for period is 11.09
-The min temp in Vienna per 2021-08-27 is 12.04
-The max difference between max and min temperature in Vienna per period is 15.45
