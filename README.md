@@ -1,8 +1,8 @@
-#Introduction#
+# Introduction #
 
 __weather_script__ is a console utility that allows you to get detailed information about the weather in the area of city with the largest number of hotels.
 _______________________________________________________________________________________________________________________________________________________________________
-##Functionality##
+## Functionality ##
 Full functionality of this utility at running:
 
 + Unpacks csv files with information about cities, countries, hotels and their coordinates into the out / output_folder folder, where "out" is the directory that you choose to save the results.
@@ -43,7 +43,7 @@ Full functionality of this utility at running:
 + Saves results into out/output_folder/country/city where "out" is the directory that you choose to save the results.
 
 ____________________________________________________________________________________________________________________________________
-##Parameters##
+## Parameters ##
 
 1) init_data_path: str
 
@@ -70,7 +70,7 @@ The path to the directory with the hotels.zip file where placed csv files with i
      Limit of requests per minute for geolocation API (recommended 600)
 
 _______________________________________________________________________________________________
-##Running##
+## Running ##
 
 To run this utility, enter in the console:
 
