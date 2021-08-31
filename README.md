@@ -52,7 +52,7 @@ The path to the directory with the hotels.zip file where placed csv files with i
 
 2)  output_path: str
 
-    Path to folder where you should save results
+    Path to folder where you want save results
 
 
 3)  workers: int
