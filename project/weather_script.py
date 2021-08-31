@@ -54,20 +54,20 @@ def weather_script(
     logger.info("Finish")
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("inp", type=str, help="path to directory with file hotels.zip")
-parser.add_argument(
-    "out", type=str, help="path to the directory where the results will be located"
-)
-parser.add_argument(
-    "workers", type=int, help="number of threads for parallel data processing"
-)
-parser.add_argument(
-    "weatherAPI_rpm", type=int, help="Number of requests per minute for weather API"
-)
-parser.add_argument(
-    "geoAPI_rpm", type=int, help="Number of requests per minute for geolocation API"
-)
-args = parser.parse_args()
-
-weather_script(args.inp, args.out, args.workers, args.weatherAPI_rpm, args.geoAPI_rpm)
+# parser = argparse.ArgumentParser()
+# parser.add_argument("inp", type=str, help="path to directory with file hotels.zip")
+# parser.add_argument(
+#     "out", type=str, help="path to the directory where the results will be located"
+# )
+# parser.add_argument(
+#     "workers", type=int, help="number of threads for parallel data processing"
+# )
+# parser.add_argument(
+#     "weatherAPI_rpm", type=int, help="Number of requests per minute for weather API"
+# )
+# parser.add_argument(
+#     "geoAPI_rpm", type=int, help="Number of requests per minute for geolocation API"
+# )
+# args = parser.parse_args()
+#
+# weather_script(args.inp, args.out, args.workers, args.weatherAPI_rpm, args.geoAPI_rpm)
