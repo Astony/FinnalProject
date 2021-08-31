@@ -1,5 +1,4 @@
 import argparse
-
 import pandas as pd
 from loguru import logger
 
@@ -42,9 +41,7 @@ def weather_script(
         workers,
         geocoder,
     )
-    cities, countries, coordinates = get_cities_countries_central_coord(
-        top_hotels_df_with_addresses
-    )
+    cities, countries, coordinates = city_center_coord(top_hotels_df_with_addresses)
     weather_df = pd.concat(
         [
             prev_weather(cities, countries, coordinates, workers, weatherAPI_rpm),
