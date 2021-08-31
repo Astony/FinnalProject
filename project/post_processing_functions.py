@@ -182,12 +182,3 @@ def save_main_info(
     for city_country, df in top_hotels_df_with_addresses.groupby(["City", "Country"]):
         logger.info(f"Save csv")
         save_csv(city_country[0], city_country[1], output_path, df)
-
-
-test_df = pd.DataFrame(
-    {"min_temp": [-100, 0, 0], "max_temp": [100, 1, 1], "day": [1, 2, 3]}
-)
-idx = (test_df["max_temp"] - test_df["min_temp"]).idxmax()
-print(test_df.day[idx], test_df.max_temp[idx] - test_df.min_temp[idx])
-# std_score = dataframe.max_temp.max() - dataframe.min_temp.min()
-# return f"The max difference between max and min temperature in {city} per period is {round(std_score,3)}"
