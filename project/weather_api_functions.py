@@ -25,7 +25,7 @@ def setup_get_method(rpm: int) -> Callable:
     @sleep_and_retry
     @limits(calls=rpm, period=60)
     def get_session(url: str) -> requests.models.Response:
-        """
+        """Returns response from API
 
         :param url: URL for get information about weather using OpenWeatherMap API
         :type url: str
@@ -46,36 +46,6 @@ def setup_get_method(rpm: int) -> Callable:
     return get_session
 
 
-def get_urls(mode: str, coordinates: List) -> List:
-    """Function that return list of urls for API requests depending on mode and coordinates
-
-    :param mode: Determine what type of weather information will be received from the output list of URLs
-    :type mode: str
-    :param coordinates: Pair of latitide,longitude of area where you want to know weather
-    :type coordinates: Tuple
-    :return: List of urls for requests to API
-    :rtype: List
-    """
-    if mode == "forecast":
-        return [
-            f"https://api.openweathermap.org/data/2.5/onecall?lat={coordinate[0]}&lon={coordinate[1]}&exclude={'hourly'}&appid={WEATHER_API_KEY}"
-            for coordinate in coordinates
-        ]
-    elif mode == "historical":
-        urls = []
-        current_date = int(datetime.timestamp(datetime.today()))
-        seconds_in_day = 86400
-        day_list = [current_date - index * seconds_in_day for index in range(1, 6)]
-        for coordinate in coordinates:
-            for timestamp in day_list:
-                urls.append(
-                    f"https://api.openweathermap.org/data/2.5/onecall/timemachine"
-                    f"?lat={coordinate[0]}&lon={coordinate[1]}&dt={timestamp}&appid={WEATHER_API_KEY}"
-                )
-
-        return urls
-
-
 def forecast_weather(
     cities: List,
     countries: List,
@@ -88,9 +58,9 @@ def forecast_weather(
 
     :param cities: List with cities
     :type cities: List
-    :param countries:List with countries
+    :param countries: List with countries
     :type countries: List
-    :param coordinates:List with coordinates
+    :param coordinates: List with coordinates
     :type coordinates: List
     :param workers: number of threads for parallel processing
     :type workers: int
@@ -136,13 +106,14 @@ def prev_weather(
     rpm: int,
     setup_get_method: Callable = setup_get_method,
 ) -> pd.DataFrame:
-    """Function that returns dataframe with information about temperature in city's central area in previous 5 days
+    """Function that returns dataframe with information about temperature
+     in city's central area in previous 5 days
 
     :param cities: List with cities
     :type cities: List
-    :param countries:List with countries
+    :param countries: List with countries
     :type countries: List
-    :param coordinates:List with coordinates
+    :param coordinates: List with coordinates
     :type coordinates: List
     :param workers: number of threads for parallel processing
     :type workers: int
