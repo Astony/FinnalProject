@@ -6,7 +6,7 @@ on: push
 
 jobs:
   code_quality:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     name: Checks with black, isort and possibly run tests
     container: python:3.9
 
