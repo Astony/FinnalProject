@@ -71,4 +71,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    weather_script(args.inp, args.out, args.workers, args.weatherAPI_rpm, args.geoAPI_rpm)
+    weather_script(
+        args.inp, args.out, args.workers, args.weatherAPI_rpm, args.geoAPI_rpm
+    )
