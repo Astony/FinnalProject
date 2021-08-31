@@ -121,7 +121,7 @@ def prev_weather(
     :type rpm: int
     :param setup_get_method: func that return get method with additional functionality
     :type setup_get_method: Callable
-    :return: DataFrame with weather info in specific city in current day and next 5 days
+    :return: DataFrame with weather info in specific city in on previous 5 days
     :rtype: pd.DataFrame
     """
 
