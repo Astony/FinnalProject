@@ -74,12 +74,12 @@ ________________________________________________________________________________
 
 To run this utility, enter in the console:
 
-\path_to_directory_with_utility python weather_script.py {init_data_path} {output_path} {workers} {weatherAPI_rpm} {geoAPI_rpm}
+``\path_to_directory_with_utility python weather_script.py {init_data_path} {output_path} {workers} {weatherAPI_rpm} {geoAPI_rpm}``
 
 
 Example:
 
-F:\Users\utility_dir python weather_script.py input output 100 60 600
+``F:\Users\utility_dir python weather_script.py input output 100 60 600``
 
 
 Test hotels.zip file is placed in project\input
