@@ -1,0 +1,4 @@
+The max temp in London per 2021-09-03 is 23.36
+The max deviation of max temp is in London for period is 6.13
+The min temp in London per 2021-08-29 is 10.54
+The max difference between max and min temperature in London per period is 12.82
