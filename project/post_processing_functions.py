@@ -10,7 +10,6 @@ def create_plots(
     city: str, country: str, output_path: str, dataframe: pd.DataFrame
 ) -> None:
     """Function that create bar plots with min and max temperature per day in city
-
     :param city: Specific city
     :type city: str
     :param country: Specific country
@@ -31,7 +30,6 @@ def create_plots(
 
 def find_max_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds max temp in city per specific period
-
     :param city: Specific city
     :type city: str
     :param dataframe: Dataframe with information about weather in city
@@ -44,7 +42,6 @@ def find_max_temp(city: str, dataframe: pd.DataFrame) -> str:
 
 def max_deviation_of_max_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds max deviation of max temp in city per specific period
-
     :param city: Specific city
     :type city: str
     :param dataframe: Dataframe with information about weather in city
@@ -60,7 +57,6 @@ def max_deviation_of_max_temp(city: str, dataframe: pd.DataFrame) -> str:
 
 def find_min_temp(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds min temp in city per specific period
-
     :param city: Specific city
     :type city: str
     :param dataframe: Dataframe with information about weather in city
@@ -73,7 +69,6 @@ def find_min_temp(city: str, dataframe: pd.DataFrame) -> str:
 
 def max_min_temp_difference(city: str, dataframe: pd.DataFrame) -> str:
     """Function that finds difference between max and min temperature in city per specific day
-
     :param city: Specific city
     :type city: str
     :param dataframe: Dataframe with information about weather in city
@@ -81,15 +76,18 @@ def max_min_temp_difference(city: str, dataframe: pd.DataFrame) -> str:
     :return: String with info about difference between max and min temperature in city per specific day
     :rtype: str
     """
-    idx = (dataframe["max_temp"] - dataframe["min_temp"]).idxmax()
-    return f"The max difference between max and min temperature in {city} per {dataframe.day[idx]} is {int(dataframe.max_temp[idx] - dataframe.min_temp[idx])}"
+
+    max_difference = (dataframe["max_temp"] - dataframe["min_temp"]).max()
+    row_with_max_difference = dataframe[
+        (dataframe["max_temp"] - dataframe["min_temp"]) == max_difference
+    ]
+    return f"The max difference between max and min temperature in {city} per {row_with_max_difference['day'].item()} is {max_difference.item()}"
 
 
 def write_weather_stat_in_file(
     city: str, country: str, output_path: str, dataframe: pd.DataFrame
 ) -> None:
     """Function that write files with weather statistics for city
-
     :param city: Specific city
     :type city: str
     :param country: Specific country
@@ -115,7 +113,6 @@ def write_weather_stat_in_file(
 
 def create_dir(city: str, country: str, output_path: str) -> None:
     """Function that creates folders for country and it's city
-
     :param city: Specific city
     :type city: str
     :param country: Specific country
@@ -133,7 +130,6 @@ def save_csv(
     city: str, country: str, output_path: str, dataframe: pd.DataFrame
 ) -> None:
     """Save information about hotels in specific city into csv files no more than 100 rows into one csv
-
     :param city: Specific city
     :type city: str
     :param country: Specific country
@@ -161,7 +157,6 @@ def save_main_info(
     top_hotels_df_with_addresses: pd.DataFrame,
 ) -> None:
     """Save plots, statistics and hotels info for specific city
-
     :param output_path: Path to folder where you should save results
     :type output_path: str
     :param weather_df: Dataframe with information about weather in city
