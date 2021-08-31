@@ -21,7 +21,7 @@ def create_plots(
     :return: None
     :rtype: None
     """
-    df_for_save = dataframe.pivot_table(["max_temp", "min_temp"], "day")
+    df_for_save.plot(kind="bar", color={"max_temp": "orange", "min_temp": "blue"})
     df_for_save.plot(kind="bar")
     plt.ylabel("Temperature in Celsius")
     plt.title(f"{city} {country}")
