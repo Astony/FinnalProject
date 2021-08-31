@@ -72,17 +72,17 @@ def find_min_temp(city: str, dataframe: pd.DataFrame) -> str:
 
 
 def max_min_temp_difference(city: str, dataframe: pd.DataFrame) -> str:
-    """Function that finds difference between max and min temperature in city per specific period
+    """Function that finds difference between max and min temperature in city per specific day
 
     :param city: Specific city
     :type city: str
     :param dataframe: Dataframe with information about weather in city
     :type dataframe: pd.DataFrame
-    :return: String with info about difference between max and min temperature in city per specific period
+    :return: String with info about difference between max and min temperature in city per specific day
     :rtype: str
     """
-    std_score = dataframe.max_temp.max() - dataframe.min_temp.min()
-    return f"The max difference between max and min temperature in {city} per period is {round(std_score,3)}"
+    idx = (dataframe["max_temp"] - dataframe["min_temp"]).idxmax()
+    return f"The max difference between max and min temperature in {city} per {dataframe.day[idx]} is {int(dataframe.max_temp[idx] - dataframe.min_temp[idx])}"
 
 
 def write_weather_stat_in_file(
@@ -182,3 +182,12 @@ def save_main_info(
     for city_country, df in top_hotels_df_with_addresses.groupby(["City", "Country"]):
         logger.info(f"Save csv")
         save_csv(city_country[0], city_country[1], output_path, df)
+
+
+test_df = pd.DataFrame(
+    {"min_temp": [-100, 0, 0], "max_temp": [100, 1, 1], "day": [1, 2, 3]}
+)
+idx = (test_df["max_temp"] - test_df["min_temp"]).idxmax()
+print(test_df.day[idx], test_df.max_temp[idx] - test_df.min_temp[idx])
+# std_score = dataframe.max_temp.max() - dataframe.min_temp.min()
+# return f"The max difference between max and min temperature in {city} per period is {round(std_score,3)}"

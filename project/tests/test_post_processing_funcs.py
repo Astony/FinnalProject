@@ -44,10 +44,12 @@ def test_find_min_temp_func():
 
 def test_max_min_temp_difference():
     """Test find_min_temp returns the max difference between max and min temperatures per day"""
-    test_df = pd.DataFrame({"min_temp": [-100, 0, 0], "max_temp": [100, 1, 1]})
+    test_df = pd.DataFrame(
+        {"min_temp": [-100, 0, 0], "max_temp": [100, 1, 1], "day": ["12", "13", "14"]}
+    )
     assert (
         max_min_temp_difference("testcity", test_df)
-        == "The max difference between max and min temperature in testcity per period is 200"
+        == "The max difference between max and min temperature in testcity per 12 is 200"
     )
 
 
