@@ -14,7 +14,7 @@ Full functionality of this utility at running:
 + Filters files by cities with the largest number of hotels in the country and add an address for each hotel in multi-threaded mode.
 
 
-+ Calculate the geographic center of a city area equidistant from the each hotel in city.
++ Calculates the geographic center of a city area equidistant from the each hotel in city.
 
 
 + Gets weather data for the calculated center
@@ -29,7 +29,7 @@ Full functionality of this utility at running:
 + Plots graphs of the dependence of the maximum and minimum temperature for each day from period that described above.
 
 
-+ Get the next statistics for each center:
++ Gets the next statistics for each center:
   
     ->Day of observation with the maximum temperature for the period
 
@@ -47,7 +47,7 @@ ________________________________________________________________________________
 
 1) init_data_path: str
 
-The path to the directory with the hotels.zip file where placed csv files with information about hotels are contained.
+    The path to the directory with the hotels.zip file where placed csv files with information about hotels.
 
 
 2)  output_path: str
@@ -57,29 +57,44 @@ The path to the directory with the hotels.zip file where placed csv files with i
 
 3)  workers: int
 
-    Number of threads for parallel processing
+    A number of threads for parallel processing
 
 
 4)   weatherAPI_rpm: int
 
-     Limit of requests per minute for weather API (recommended 60)
+     A limit of requests per minute for weather API (recommended 60)
 
 
 5)   geoAPI_rpm: int
 
-     Limit of requests per minute for geolocation API (recommended 600)
+     A limit of requests per minute for geolocation API (recommended 600)
 
 _______________________________________________________________________________________________
 ## Running ##
 
 To run this utility, enter in the console:
 
-``\path_to_directory_with_utility python weather_script.py {init_data_path} {output_path} {workers} {weatherAPI_rpm} {geoAPI_rpm}``
+``F:\Users\Name\PycharmProjects\FinalProject\project python weather_script.py {init_data_path} {output_path} {workers} {weatherAPI_rpm} {geoAPI_rpm}``
+
+Where values in {} are input parameters. Note that you should input parameters strictly in the order that was described above!
 
 
 Example:
+ 
+To quickly test the utility, run the following commands:
 
-``F:\Users\utility_dir python weather_script.py input output 100 60 600``
+
+``pip install -r requirements.txt``
+ 
+ 
+``cd project``
+ 
+ 
+ ``mkdir output``
+ 
+ 
+
+``F:\Users\Name\PycharmProjects\FinalProject\project python weather_script.py input output 100 60 600``
 
 
 Test hotels.zip file is placed in project\input
