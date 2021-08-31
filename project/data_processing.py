@@ -61,7 +61,7 @@ def define_address(top_cities_df: pd.DataFrame, workers: int, geocoder) -> pd.Da
     return top_cities_df
 
 
-def calc_central_coord(dataframe: pd.DataFrame) -> Tuple:
+def calc_central(dataframe: pd.DataFrame) -> Tuple:
     """Calculate central coordinates
 
     :param dataframe: dataframe that contains of latitude and longitude columns
@@ -91,7 +91,7 @@ def calc_central_coord(dataframe: pd.DataFrame) -> Tuple:
     return math.degrees(central_latitude), math.degrees(central_longitude)
 
 
-def get_cities_countries_central_coord(dataframe: pd.DataFrame) -> Tuple:
+def city_center_coord(dataframe: pd.DataFrame) -> Tuple:
     """Get lists with all cities, countries and that's central coordinates
 
     :param dataframe: dataframe with info about city, country and coordinates
@@ -105,5 +105,5 @@ def get_cities_countries_central_coord(dataframe: pd.DataFrame) -> Tuple:
         city, country = city_country
         cities.append(city)
         countries.append(country)
-        coordinates.append(calc_central_coord(dataframe))
+        coordinates.append(calc_central(dataframe))
     return cities, countries, coordinates

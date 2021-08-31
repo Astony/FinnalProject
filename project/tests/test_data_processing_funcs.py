@@ -1,9 +1,5 @@
 import pandas as pd
-from data_processing import (
-    calc_central_coord,
-    define_address,
-    get_cities_countries_central_coord,
-)
+from data_processing import calc_central, city_center_coord, define_address
 
 
 def mock_geocoder(*args):
@@ -21,13 +17,13 @@ def test_define_addresses_function():
 
 
 def test_calc_central_coord():
-    """Test that calc_central_coord return the middle between to coordinates"""
+    """Test that calc_central return the middle between to coordinates"""
     test_df = pd.DataFrame({"Latitude": [60, 80], "Longitude": [100, 100]})
-    assert calc_central_coord(test_df) == (70, 100)
+    assert calc_central(test_df) == (70, 100)
 
 
 def test_get_cities_countries_central_coord():
-    """Test get_cities_countries_central_coord return the central coordinates for 2 hotels in one city"""
+    """Test city_center_coord return the central coordinates for 2 hotels in one city"""
     test_df = pd.DataFrame(
         {
             "Latitude": [60, 80],
@@ -36,7 +32,7 @@ def test_get_cities_countries_central_coord():
             "Country": ["fakecountry", "fakecountry"],
         }
     )
-    assert get_cities_countries_central_coord(test_df) == (
+    assert city_center_coord(test_df) == (
         ["Fakecity"],
         ["fakecountry"],
         [(70, 100)],

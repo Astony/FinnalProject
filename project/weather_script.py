@@ -3,11 +3,7 @@ import argparse
 import pandas as pd
 from loguru import logger
 
-from data_processing import (
-    define_address,
-    geocoder_setup,
-    get_cities_countries_central_coord,
-)
+from data_processing import city_center_coord, define_address, geocoder_setup
 from post_processing_functions import save_main_info
 from preparation_of_data_functions import primary_data_proc, unzip
 from weather_api_functions import forecast_weather, prev_weather
