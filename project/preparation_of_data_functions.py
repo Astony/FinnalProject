@@ -6,7 +6,14 @@ from loguru import logger
 
 
 def unzip(init_data_path: str, output_path: str) -> None:
-    """Create output folder and extracts all csv files there"""
+    """Create output folder and extracts all csv files there
+
+    :param init_data_path: Path to folder with hotels.zip
+    :type init_data_path: str
+    :param output_path: Path to folder where you should save results
+    :type output_path: str
+    :return: None
+    """
     Path(f"{output_path}/output_folder").mkdir()
     with ZipFile(f"{init_data_path}/hotels.zip", "r") as zip_obj:
         zip_obj.extractall(Path(f"{output_path}/output_folder"))
@@ -14,7 +21,13 @@ def unzip(init_data_path: str, output_path: str) -> None:
 
 
 def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame:
-    """Filter data by name, longitude and latitude"""
+    """Filter data by name, longitude and latitude
+
+    :param invalid_dataframe: Dataframe with invalid latitude, longitude, hotels name
+    :type invalid_dataframe: pd.Dataframe
+    :return: filtered dataframe woth correct latitude, longitude and hotels name
+    :rtype: pd.DataFrame
+    """
     df_with_correct_rows = invalid_dataframe[
         pd.to_numeric(invalid_dataframe["Latitude"], errors="coerce").notnull()
         & pd.to_numeric(invalid_dataframe["Longitude"], errors="coerce").notnull()
@@ -31,7 +44,13 @@ def filter_df_from_invalid_rows(invalid_dataframe: pd.DataFrame) -> pd.DataFrame
 
 
 def primary_data_proc(output_path: str) -> pd.DataFrame:
-    """Return dataframe with cities which have the most number of hotels"""
+    """Return dataframe with cities which have the most number of hotels
+
+    :param output_path: Path to folder where you should save results
+    :type output_path: str
+    :return: Dataframe with cities which contains of the most number of hotels in country
+    :rtype: pd.DataFrame
+    """
     all_df_list = (
         filter_df_from_invalid_rows(pd.read_csv(path, encoding="utf-8"))
         for path in Path(f"{output_path}/output_folder").glob("*.csv")

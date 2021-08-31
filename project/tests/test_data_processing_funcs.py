@@ -1,28 +1,43 @@
 import pandas as pd
-from data_processing import define_address, get_cities_countries_central_coord, calc_central_coord
+from data_processing import (
+    calc_central_coord,
+    define_address,
+    get_cities_countries_central_coord,
+)
 
 
-
-def mock_geocoder_setup(*args):
-    def mock_geocoder(*args):
-        return "Test address"
-    return mock_geocoder
+def mock_geocoder(*args):
+    """Mock function for geocoder to avoid requests to API"""
+    return "Test address"
 
 
 def test_define_addresses_function():
+    """Test that define_addresses_function add address that was got by geocoder"""
     test_df = pd.DataFrame({"Latitude": [100], "Longitude": [0]})
-    geocoder = mock_geocoder_setup("somearg")
+    geocoder = mock_geocoder
     result_df = define_address(test_df, 1, geocoder)
     assert result_df.Address.item() == "Test address"
     assert result_df.Latitude.item() == 100
 
-def test_get_of_central_coordinates():
-    test_df = pd.DataFrame({"Latitude": [60, 80], "Longitude": [100,100]})
-    assert calc_central_coord(test_df) == (70,100)
 
-def test_get_center_of_city():
-    test_df = pd.DataFrame({"Latitude": [60, 80],
-                            "Longitude": [100,100],
-                            "City":["Fakecity", "Fakecity"],
-                            "Country":["fakecountry", "fakecountry"]})
-    assert get_cities_countries_central_coord(test_df) == [["Fakecity"], ["fakecountry"], [(70,100)]]
+def test_calc_central_coord():
+    """Test that calc_central_coord return the middle between to coordinates"""
+    test_df = pd.DataFrame({"Latitude": [60, 80], "Longitude": [100, 100]})
+    assert calc_central_coord(test_df) == (70, 100)
+
+
+def test_get_cities_countries_central_coord():
+    """Test get_cities_countries_central_coord return the central coordinates for 2 hotels in one city"""
+    test_df = pd.DataFrame(
+        {
+            "Latitude": [60, 80],
+            "Longitude": [100, 100],
+            "City": ["Fakecity", "Fakecity"],
+            "Country": ["fakecountry", "fakecountry"],
+        }
+    )
+    assert get_cities_countries_central_coord(test_df) == (
+        ["Fakecity"],
+        ["fakecountry"],
+        [(70, 100)],
+    )
